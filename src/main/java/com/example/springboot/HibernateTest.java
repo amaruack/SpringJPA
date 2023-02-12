@@ -1,13 +1,13 @@
 package com.example.springboot;
 
+import com.example.springboot.config.common.OrderStatus;
 import com.example.springboot.config.common.RoleType;
 import com.example.springboot.config.domain.Member;
+import com.example.springboot.config.domain.Order;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Slf4j
@@ -24,21 +24,52 @@ public class HibernateTest {
         try {
 
             em.persist(Member.builder()
-                    .id(ThreadLocalRandom.current().nextLong(1000))
+                    .name("1111")
                     .age(12)
                     .roleType(RoleType.ADMIN)
+                    .createAt(LocalDateTime.now())
+                    .updateAt(LocalDateTime.now())
+                    .description("adsfdasf")
+                    .build());
+
+            em.persist(Member.builder()
+                    .name("222")
+                    .age(12)
+                    .roleType(RoleType.ADMIN)
+                    .createAt(LocalDateTime.now())
+                    .updateAt(LocalDateTime.now())
+                    .description("adsfdasf")
                     .build());
 
             em.flush();
+            em.clear();
 
-            // managed 상태
-            Member member = em.find(Member.class, 1L);
-            em.clear(); // detached 상태
+            Member find = em.find(Member.class, 2L);
 
-            // 다시 managed 상태 // query 2번 날라감
-            Member member2 = em.find(Member.class, 1L);
+//            LocalDateTime orderDate;
+//            OrderStatus status;
 
-            log.info("equals {}", member == member2);
+            em.persist(Order.builder()
+                    .orderDate(LocalDateTime.now())
+                    .status(OrderStatus.ORDER)
+                    .memberId(2L)
+//                    .member(find)
+                    .build());
+
+            em.flush();
+            em.clear();
+
+            Order findOrder = em.find(Order.class, 1L);
+            System.out.printf("");
+//
+//            // managed 상태
+//            Member member = em.find(Member.class, 1L);
+//            em.clear(); // detached 상태
+//
+//            // 다시 managed 상태 // query 2번 날라감
+//            Member member2 = em.find(Member.class, 1L);
+//
+//            log.info("equals {}", member == member2);
 
             tx.commit();
         } catch (Exception e) {
