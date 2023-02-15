@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @SuperBuilder
 @MappedSuperclass
-public abstract class SuperEntity {
+public abstract class BaseEntity {
 
     private String createBy;
     private LocalDateTime createAt;

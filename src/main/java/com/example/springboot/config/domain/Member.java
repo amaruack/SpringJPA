@@ -2,14 +2,12 @@ package com.example.springboot.config.domain;
 
 import com.example.springboot.config.common.RoleType;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -25,7 +23,7 @@ import java.util.List;
 // table 전략
 //@TableGenerator(name = "MEMBER_SEQ_GENERATOR", table = "MY_SEQUENCES", pkColumnValue = "MEMBER_SE", initialValue = 1, allocationSize = 1)
 
-public class Member extends SuperEntity implements Serializable {
+public class Member extends BaseEntity implements Serializable {
 
     @Id
     // sequence 전략

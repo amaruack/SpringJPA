@@ -2,7 +2,6 @@ package com.example.springboot.config.domain;
 
 import com.example.springboot.config.common.OrderStatus;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -17,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "order_info")
-public class Order extends SuperEntity {
+public class Order extends BaseEntity {
 
     @Id
     @GeneratedValue
