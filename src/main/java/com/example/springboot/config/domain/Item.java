@@ -4,17 +4,20 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.convert.Delimiter;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 
 @Data
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table
-public class Item {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+// 해당 애노테이션은 DTYPE 을 넣어준다. 하위 객체의 타입을 넣어준다.
+@DiscriminatorColumn()
+public abstract class Item {
 
     @Id
     @GeneratedValue
@@ -25,5 +28,6 @@ public class Item {
     Integer price;
     @Column(name = "stock_quantity")
     Integer stockQuantity;
+
 
 }
