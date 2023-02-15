@@ -21,7 +21,6 @@ public class Order extends SuperEntity {
 
     @Id
     @GeneratedValue
-//    @Column
     Long id;
 
     @Column(name = "member_id")
@@ -38,7 +37,7 @@ public class Order extends SuperEntity {
     @JoinColumn(name = "member_id", referencedColumnName = "id", insertable = false, updatable = false)
     Member member;
 
-//    @OneToMany(mappedBy = "order")
-//    List<OrderItem> orderItems;
+    @OneToMany(mappedBy = "order")
+    List<OrderItem> orderItems;
 
 }

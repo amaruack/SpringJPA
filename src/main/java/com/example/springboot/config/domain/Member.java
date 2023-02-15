@@ -39,6 +39,7 @@ public class Member extends SuperEntity implements Serializable {
 
     private Integer age;
 
+    @Column(name = "role_type")
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
@@ -50,5 +51,15 @@ public class Member extends SuperEntity implements Serializable {
     @OneToMany(mappedBy = "member")
     List<Order> orders;
 
+    // locker id 값으로 하고 싶으면 해당 조건 사용
+//    @Column(name = "lock_id")
+    // locker id 값으로 mapping을 하지않고 아래의 객체 형태로 할경우 insertable = false, updatable = false 입력
+    @Column(name = "lock_id", insertable = false, updatable = false )
+    private Long lockId;
+
+    @OneToOne
+//    @JoinColumn(name = "lock_id", referencedColumnName = "id", insertable = false, updatable = false, unique = true)
+    @JoinColumn(name = "lock_id", referencedColumnName = "id", unique = true)
+    Locker locker;
 
 }

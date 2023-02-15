@@ -36,5 +36,4 @@ public class OrderItem {
     @JoinColumn(name = "item_id", referencedColumnName = "id", insertable = false, updatable = false)
     Item item;
 
-
 }
