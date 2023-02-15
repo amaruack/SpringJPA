@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -23,7 +24,8 @@ import java.util.List;
 )
 // table 전략
 //@TableGenerator(name = "MEMBER_SEQ_GENERATOR", table = "MY_SEQUENCES", pkColumnValue = "MEMBER_SE", initialValue = 1, allocationSize = 1)
-public class Member implements Serializable {
+
+public class Member extends SuperEntity implements Serializable {
 
     @Id
     // sequence 전략
@@ -40,9 +42,7 @@ public class Member implements Serializable {
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
-    private LocalDateTime createAt;
 
-    private LocalDateTime updateAt;
 
     @Lob
     private String description;
