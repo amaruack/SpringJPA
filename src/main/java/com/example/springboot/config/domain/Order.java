@@ -36,7 +36,7 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "member_id", referencedColumnName = "id")
     Member member;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "delivery_id", referencedColumnName = "id")
     Delivery delivery;
 
