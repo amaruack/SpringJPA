@@ -41,12 +41,10 @@ public class Member extends BaseEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
-
-
     @Lob
     private String description;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     List<Order> orders;
 
     // locker id 값으로 하고 싶으면 해당 조건 사용

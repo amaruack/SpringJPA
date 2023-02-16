@@ -32,7 +32,7 @@ public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
     OrderStatus status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id", referencedColumnName = "id", insertable = false, updatable = false)
     Member member;
 
