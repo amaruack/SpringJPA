@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.List;
 
 @Slf4j
 public class HibernateTest {
@@ -25,54 +25,33 @@ public class HibernateTest {
         try {
             tx.begin();
 
-            Album album = Album.builder()
-                    .name("album")
-                    .price(2424)
-                    .artist("artist")
-                    .build();
-            em.persist(album);
-
-            em.flush();
-            em.clear();
-
-            Album find = em.find(Album.class, album.getId());
-
-            System.out.printf("dsafdf");
-
             Member member = Member.builder()
-                    .name("wetewt")
+                    .name("son")
+//                    .orders()
                     .build();
+
+
+            member.setOrders(
+                    List.of(Order.builder()
+                                    .orderDate(LocalDateTime.now())
+                                    .status(OrderStatus.ORDER)
+                                    .member(member)
+                                    .build(),
+                            Order.builder()
+                                    .orderDate(LocalDateTime.now())
+                                    .status(OrderStatus.CANCEL)
+                                    .member(member)
+                                    .build())
+            );
 
             em.persist(member);
-            em.flush();
-            em.clear();
-
-            Member reference = em.getReference(Member.class, member.getId());
-            System.out.println("init ?? "+persistenceUnitUtil.isLoaded(reference));
-            Member find2 = em.find(Member.class, member.getId());
-            System.out.println();
-//            System.out.println(reference.getName());
-            System.out.println("reference class = "+reference.getClass());
-//            System.out.println("reference class = "+reference.getName());
-
-            System.out.println("init ?? "+persistenceUnitUtil.isLoaded(reference));
-
-            System.out.println(find2.getName());
-            System.out.println("find class = "+find2.getClass());
-
-            Order order = Order.builder()
-                    .memberId(member.getId())
-                    .orderDate(LocalDateTime.now())
-                    .build();
-            em.persist(order);
 
             em.flush();
             em.clear();
 
-            Order fineOrder = em.find(Order.class, order.getId());
-            System.out.println(fineOrder.getOrderDate().toString());
-            System.out.println("member class = "+fineOrder.getMember().getClass());
-            System.out.println("member getName = "+fineOrder.getMember().getName());
+            Member findMember = em.find(Member.class, member.getId());
+            findMember.getOrders().remove(0);
+
 
             tx.commit();
         } catch (Exception e) {

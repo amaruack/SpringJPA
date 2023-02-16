@@ -22,7 +22,7 @@ public class Order extends BaseEntity {
     @GeneratedValue
     Long id;
 
-    @Column(name = "member_id")
+    @Column(name = "member_id", insertable = false, updatable = false)
     Long memberId;
 
     @Column(name = "order_date")
@@ -32,9 +32,13 @@ public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
     OrderStatus status;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "member_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", referencedColumnName = "id")
     Member member;
+
+    @OneToOne
+    @JoinColumn(name = "delivery_id", referencedColumnName = "id")
+    Delivery delivery;
 
     @OneToMany(mappedBy = "order")
     List<OrderItem> orderItems;

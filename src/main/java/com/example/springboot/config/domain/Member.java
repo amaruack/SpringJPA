@@ -8,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -44,8 +45,9 @@ public class Member extends BaseEntity implements Serializable {
     @Lob
     private String description;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-    List<Order> orders;
+    // orphanRemoval = true 시 자식 객체 삭제하면 엔티티도 삭제됨 delete 날라감
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    List<Order> orders ;
 
     // locker id 값으로 하고 싶으면 해당 조건 사용
 //    @Column(name = "lock_id")
