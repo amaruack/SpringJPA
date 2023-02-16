@@ -2,8 +2,10 @@ package com.example.springboot;
 
 import com.example.springboot.config.common.OrderStatus;
 import com.example.springboot.config.common.RoleType;
+import com.example.springboot.config.domain.Address;
 import com.example.springboot.config.domain.Member;
 import com.example.springboot.config.domain.Order;
+import com.example.springboot.config.domain.Period;
 import com.example.springboot.config.domain.item.Album;
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,6 +54,24 @@ public class HibernateTest {
             Member findMember = em.find(Member.class, member.getId());
             findMember.getOrders().remove(0);
 
+
+            Address address = Address.builder().city("seoul").build();
+
+            Member embbed = Member.builder()
+                    .name("sss")
+                    .period(Period.builder().startDate(LocalDateTime.now()).endDate(LocalDateTime.now()).build())
+                    .address(address)
+                    .build();
+            em.persist(embbed);
+
+            Member embbed2 = Member.builder()
+                    .name("222")
+                    .period(Period.builder().startDate(LocalDateTime.now()).endDate(LocalDateTime.now()).build())
+                    .address(address)
+                    .build();
+            em.persist(embbed2);
+
+            embbed2.getAddress().setStreet("!!");
 
             tx.commit();
         } catch (Exception e) {

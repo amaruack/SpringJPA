@@ -45,6 +45,12 @@ public class Member extends BaseEntity implements Serializable {
     @Lob
     private String description;
 
+    @Embedded
+    private Period period;
+
+    @Embedded
+    private Address address;
+
     // orphanRemoval = true 시 자식 객체 삭제하면 엔티티도 삭제됨 delete 날라감
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<Order> orders ;
