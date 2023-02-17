@@ -29,7 +29,9 @@ public class HibernateTest {
 
             Member member = Member.builder()
                     .name("son")
-//                    .orders()
+                    .address(Address.builder().street("집").build())
+                    .favoriteFoods(List.of("치킨", "족발"))
+                    .addressHistory(List.of(Address.builder().street("old1").build(), Address.builder().street("old1").build()))
                     .build();
 
 
@@ -51,27 +53,14 @@ public class HibernateTest {
             em.flush();
             em.clear();
 
+            System.out.println("================");
             Member findMember = em.find(Member.class, member.getId());
-            findMember.getOrders().remove(0);
+            System.out.println(findMember.getAddress().getStreet());
 
+            findMember.getFavoriteFoods().stream().forEach(System.out::println);
+            findMember.getAddressHistory().stream().forEach(add -> add.toString());
 
-            Address address = Address.builder().city("seoul").build();
-
-            Member embbed = Member.builder()
-                    .name("sss")
-                    .period(Period.builder().startDate(LocalDateTime.now()).endDate(LocalDateTime.now()).build())
-                    .address(address)
-                    .build();
-            em.persist(embbed);
-
-            Member embbed2 = Member.builder()
-                    .name("222")
-                    .period(Period.builder().startDate(LocalDateTime.now()).endDate(LocalDateTime.now()).build())
-                    .address(address)
-                    .build();
-            em.persist(embbed2);
-
-            embbed2.getAddress().setStreet("!!");
+            System.out.println("sdf");
 
             tx.commit();
         } catch (Exception e) {

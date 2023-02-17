@@ -61,9 +61,26 @@ public class Member extends BaseEntity implements Serializable {
     @Column(name = "lock_id", insertable = false, updatable = false )
     private Long lockId;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "lock_id", referencedColumnName = "id", insertable = false, updatable = false, unique = true)
     @JoinColumn(name = "lock_id", referencedColumnName = "id", unique = true)
     Locker locker;
+
+    @ElementCollection
+    @CollectionTable(name = "favorite_food", joinColumns = @JoinColumn(name = "member_id"))
+    @Column(name = "food_name")
+    List<String> favoriteFoods;
+
+
+    /**
+     * 사용 하지 않는걸 추천
+     * 사용할려면 value type 인 Address 를 entity 로 wrapping 해서 사용한다.  ex ) AddressEntity
+     */
+    @OrderColumn(name = "address_history_order")
+    @ElementCollection
+    @CollectionTable(name = "address_history", joinColumns = @JoinColumn(name = "member_id"))
+    List<Address> addressHistory;
+
+
 
 }
