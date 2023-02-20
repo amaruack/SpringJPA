@@ -18,9 +18,13 @@ public class Address {
 
     private String city;
     private String street;
+
     @Column(name = "zip_code")
     private String zipCode;
 
+    public String fullAddress(){
+        return this.getCity() + " " + this.getStreet() + " " + this.getZipCode();
+    }
 
     /**
      *  value type 으로 사용 할 경우 equals 와 hashCode 는 재정의 해주는게 좋다.
@@ -30,7 +34,7 @@ public class Address {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
-        return Objects.equals(city, address.city) && Objects.equals(street, address.street) && Objects.equals(zipCode, address.zipCode);
+        return Objects.equals(getCity(), address.getCity()) && Objects.equals(getStreet(), address.getStreet()) && Objects.equals(getZipCode(), address.getZipCode());
     }
 
     @Override

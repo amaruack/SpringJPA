@@ -19,7 +19,8 @@ public class Delivery {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String address;
+    @Embedded
+    private Address address;
 
     @OneToOne(mappedBy = "delivery", fetch = FetchType.LAZY)
     private Order order;

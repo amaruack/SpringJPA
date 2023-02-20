@@ -33,34 +33,34 @@ public class HibernateTest {
                     .favoriteFoods(List.of("치킨", "족발"))
                     .addressHistory(List.of(Address.builder().street("old1").build(), Address.builder().street("old1").build()))
                     .build();
-
-
-            member.setOrders(
-                    List.of(Order.builder()
-                                    .orderDate(LocalDateTime.now())
-                                    .status(OrderStatus.ORDER)
-                                    .member(member)
-                                    .build(),
-                            Order.builder()
-                                    .orderDate(LocalDateTime.now())
-                                    .status(OrderStatus.CANCEL)
-                                    .member(member)
-                                    .build())
-            );
-
             em.persist(member);
+
+            Member member2 = Member.builder()
+                    .name("son1")
+                    .address(Address.builder().street("집1").build())
+                    .favoriteFoods(List.of("치킨", "족발"))
+                    .addressHistory(List.of(Address.builder().street("old1").build(), Address.builder().street("old1").build()))
+                    .build();
+            em.persist(member2);
+
+            Member member3 = Member.builder()
+                    .name("son2")
+                    .address(Address.builder().street("외부").build())
+                    .favoriteFoods(List.of("치킨", "족발"))
+                    .addressHistory(List.of(Address.builder().street("old1").build(), Address.builder().street("old1").build()))
+                    .build();
+            em.persist(member3);
 
             em.flush();
             em.clear();
 
-            System.out.println("================");
-            Member findMember = em.find(Member.class, member.getId());
-            System.out.println(findMember.getAddress().getStreet());
+            List<Member> list = em.createQuery("select m from Member m where m.address.street like '집%' ", Member.class).getResultList();
 
-            findMember.getFavoriteFoods().stream().forEach(System.out::println);
-            findMember.getAddressHistory().stream().forEach(add -> add.toString());
+            list.stream().forEach(m -> System.out.println(m.getName()));
 
-            System.out.println("sdf");
+            System.out.println();
+
+
 
             tx.commit();
         } catch (Exception e) {
