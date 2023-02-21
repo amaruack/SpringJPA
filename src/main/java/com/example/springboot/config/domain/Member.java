@@ -76,11 +76,24 @@ public class Member extends BaseEntity implements Serializable {
      * 사용 하지 않는걸 추천
      * 사용할려면 value type 인 Address 를 entity 로 wrapping 해서 사용한다.  ex ) AddressEntity
      */
-    @OrderColumn(name = "address_history_order")
-    @ElementCollection
-    @CollectionTable(name = "address_history", joinColumns = @JoinColumn(name = "member_id"))
-    List<Address> addressHistory;
+//    @OrderColumn(name = "address_history_order")
+//    @ElementCollection
+//    @CollectionTable(name = "address_history", joinColumns = @JoinColumn(name = "member_id"))
+//    List<Address> addressHistory;
 
 
-
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", roleType=" + roleType +
+                ", description='" + description + '\'' +
+                ", period=" + period +
+                ", address=" + address +
+                ", lockId=" + lockId +
+                ", locker=" + locker +
+                '}';
+    }
 }

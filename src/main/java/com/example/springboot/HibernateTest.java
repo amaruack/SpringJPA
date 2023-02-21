@@ -31,35 +31,78 @@ public class HibernateTest {
                     .name("son")
                     .address(Address.builder().street("집").build())
                     .favoriteFoods(List.of("치킨", "족발"))
-                    .addressHistory(List.of(Address.builder().street("old1").build(), Address.builder().street("old1").build()))
+//                    .addressHistory(List.of(Address.builder().street("old1").build(), Address.builder().street("old1").build()))
                     .build();
             em.persist(member);
+
+            Order order1 = Order.builder()
+                    .memberId(member.getId())
+                    .member(member)
+                    .orderDate(LocalDateTime.now())
+                    .status(OrderStatus.ORDER)
+                    .build();
+            em.persist(order1);
+
+            Order order2 = Order.builder()
+                    .memberId(member.getId())
+                    .member(member)
+                    .orderDate(LocalDateTime.now())
+                    .status(OrderStatus.ORDER)
+                    .build();
+            em.persist(order2);
 
             Member member2 = Member.builder()
                     .name("son1")
                     .address(Address.builder().street("집1").build())
                     .favoriteFoods(List.of("치킨", "족발"))
-                    .addressHistory(List.of(Address.builder().street("old1").build(), Address.builder().street("old1").build()))
+//                    .addressHistory(List.of(Address.builder().street("old1").build(), Address.builder().street("old1").build()))
                     .build();
             em.persist(member2);
+
+            Order order3 = Order.builder()
+                    .memberId(member2.getId())
+                    .member(member2)
+                    .orderDate(LocalDateTime.now())
+                    .status(OrderStatus.ORDER)
+                    .build();
+            em.persist(order3);
+
+            Order order4 = Order.builder()
+                    .memberId(member2.getId())
+                    .member(member2)
+                    .orderDate(LocalDateTime.now())
+                    .status(OrderStatus.ORDER)
+                    .build();
+            em.persist(order4);
 
             Member member3 = Member.builder()
                     .name("son2")
                     .address(Address.builder().street("외부").build())
                     .favoriteFoods(List.of("치킨", "족발"))
-                    .addressHistory(List.of(Address.builder().street("old1").build(), Address.builder().street("old1").build()))
+//                    .addressHistory(List.of(Address.builder().street("old1").build(), Address.builder().street("old1").build()))
                     .build();
             em.persist(member3);
 
             em.flush();
             em.clear();
 
-            List<Member> list = em.createQuery("select m from Member m where m.address.street like '집%' ", Member.class).getResultList();
+//
+//            String query = "select o from Order o join fetch o.member ";
+//            List<Order> list = em.createQuery(query, Order.class).getResultList();
+//
+//            for (Order result : list) {
+//                System.out.println(result.getId());
+//                System.out.println(result.getMember().getName());
+//            }
 
-            list.stream().forEach(m -> System.out.println(m.getName()));
+            String query = "select distinct m from Member m join fetch m.orders ";
+            List<Member> list = em.createQuery(query, Member.class).getResultList();
 
-            System.out.println();
-
+            for (Member result : list) {
+                System.out.println(result.getId());
+                System.out.println(result.getName());
+                System.out.println(result.getOrders().size());
+            }
 
 
             tx.commit();
